@@ -30,11 +30,35 @@ class Pipes(pygame.sprite.Sprite):
         pygame.draw.rect(surface, self.green, self.top_pipe_rect)
 
     def move_pipes(self):
-        self.bot_pipe_rect.move_ip(-1, 0)
-        self.top_pipe_rect.move_ip(-1, 0)
+        self.bot_pipe_rect.move_ip(-2, 0)
+        self.top_pipe_rect.move_ip(-2, 0)
     
     def remove(self):
         if self.bot_pipe_rect.x == -1 * self.pipe_width:
             self.kill()
+
+
+class Bird(pygame.sprite.Sprite):
+
+    yellow = [255, 255, 0]
+
+    def __init__(self, screen_x, screen_y, gravity, jump_velocity=0):
+        self.screen_x = screen_x
+        self.screen_y = screen_y
+        self.gravity = gravity
+        self.jump_velocity = jump_velocity
+
+    def create_bird_rect(self, start_x, start_y, size_x, size_y):
+        self.start_x = int(np.round(start_x * self.screen_x, 0))
+        self.start_y = int(np.round(start_y * self.screen_y, 0))
+        self.bird_rect = pygame.rect.Rect(self.start_x, self.start_y, size_x, size_y)
+
+    def draw_bird(self, surface):
+        pygame.draw.rect(surface, self.yellow, self.bird_rect)
+
+    def move(self, t):
+        new_y = self.gravity * t**2 + self.jump_velocity * t + self.start_y
+        y_offset = new_y - self.bird_rect.y
+        self.bird_rect.move_ip(0, y_offset)
 
 
