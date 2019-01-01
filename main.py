@@ -1,6 +1,7 @@
 import pygame, sys
 import numpy as np
 from game_elements import Pipes, Bird
+from game_mechanics import Score
 import time
 
 pygame.init()
@@ -9,15 +10,17 @@ red = [255, 0, 0]
 background = [0, 0, 0]
 screen_x = 640
 screen_y = 480
-gap_width = 0.2
+gap_width = 0.3
 pipe_width = 0.1
-space_between_pipes = 2.5 # a multiple of the pipe width
+space_between_pipes = 3 # a multiple of the pipe width
 screen = pygame.display.set_mode((screen_x, screen_y))
 pipes_group = pygame.sprite.Group()
-bird = Bird(screen_x = screen_x, screen_y = screen_y, gravity = 1.2)
-bird.create_bird_rect(start_x = 0.5, start_y = 0.2, size_x = 20, size_y = 20)
+bird = Bird(screen_x = screen_x, screen_y = screen_y, gravity = 1.15)
+bird.create_bird_rect(start_x = 0.5, start_y = 0.2, size_x = 44, size_y = 30)
 t=0
-jump_velocity = -15
+jump_velocity = -14
+score = 0
+scoring = Score()
 
 while True:
     t = t+1
@@ -47,13 +50,28 @@ while True:
         else: 
             pass
     
+    pipe_rect_list = []
+
     for pipe in pipes_group:
         pipe.remove()
         pipe.move_pipes()
         pipe.draw_pipes(surface=screen)
+        pipe_rect_list.extend([pipe.bot_pipe_rect, pipe.top_pipe_rect])
 
     bird.move(t = t)
     bird.draw_bird(surface = screen)
+    die = bird.die(list_of_rects = pipe_rect_list)
+    if die:
+        pipes_group.empty()
+        bird = Bird(screen_x = screen_x, screen_y = screen_y, gravity = 1.2)
+        bird.create_bird_rect(start_x = 0.5, start_y = 0.2, size_x = 44, size_y = 30)
+        t=0
+        score=0
+
+    score = scoring.new_score(bird = bird, pipes_group = pipes_group, score = score)
+    scoring.display_score(score = score, surface = screen)
+
+
 
     pygame.display.update()
 

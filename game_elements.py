@@ -1,5 +1,6 @@
 import pygame, sys
 import numpy as np
+from math import atan, pi
 
 class Pipes(pygame.sprite.Sprite):
 
@@ -41,6 +42,7 @@ class Pipes(pygame.sprite.Sprite):
 class Bird(pygame.sprite.Sprite):
 
     yellow = [255, 255, 0]
+    bird_pic = pygame.image.load('./images/fb44x30.png')
 
     def __init__(self, screen_x, screen_y, gravity, jump_velocity=0):
         self.screen_x = screen_x
@@ -54,11 +56,27 @@ class Bird(pygame.sprite.Sprite):
         self.bird_rect = pygame.rect.Rect(self.start_x, self.start_y, size_x, size_y)
 
     def draw_bird(self, surface):
-        pygame.draw.rect(surface, self.yellow, self.bird_rect)
+        angle = -atan(self.y_offset/15)/pi*180
+        display_bird = pygame.transform.rotate(self.bird_pic, angle)
+        surface.blit(display_bird, self.bird_rect)
 
     def move(self, t):
         new_y = self.gravity * t**2 + self.jump_velocity * t + self.start_y
-        y_offset = new_y - self.bird_rect.y
-        self.bird_rect.move_ip(0, y_offset)
+        self.y_offset = new_y - self.bird_rect.y
+        self.bird_rect.move_ip(0, self.y_offset)
+    
+    def die(self, list_of_rects):
+        collision = self.bird_rect.collidelist(list_of_rects)
+        bird_top = self.bird_rect.y
+        bird_bot = self.bird_rect.y + self.bird_rect.size[1]
+        
+        if bird_top >= self.screen_y:
+            return True
+        elif bird_bot <= 0:
+            return True
+        if collision == -1:
+            return False
+        else:
+            return True
 
 
