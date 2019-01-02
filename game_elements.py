@@ -4,6 +4,8 @@ from math import atan, pi
 
 class Pipes(pygame.sprite.Sprite):
 
+    pipe_image_bot = pygame.image.load('./images/wall_bot.png')
+    pipe_image_top = pygame.image.load('./images/wall_top.png')
     green = [0, 255, 0]
     
     def __init__(self, gap_width, pipe_width, screen_x, screen_y):
@@ -24,11 +26,13 @@ class Pipes(pygame.sprite.Sprite):
 
         # top pipe
         top_pipe_height = self.screen_y - self.gap_width - bot_pipe_height
-        self.top_pipe_rect = pygame.rect.Rect(int(x_pos), int(0), int(self.pipe_width), int(top_pipe_height))
+        self.top_pipe_rect = pygame.rect.Rect(int(x_pos), int(top_pipe_height - self.screen_y), int(self.pipe_width), int(self.screen_y))
     
     def draw_pipes(self, surface):
-        pygame.draw.rect(surface, self.green, self.bot_pipe_rect)
-        pygame.draw.rect(surface, self.green, self.top_pipe_rect)
+        surface.blit(self.pipe_image_bot, self.bot_pipe_rect)
+        surface.blit(self.pipe_image_top, self.top_pipe_rect)
+        # pygame.draw.rect(surface, self.green, self.bot_pipe_rect)
+        # pygame.draw.rect(surface, self.green, self.top_pipe_rect)
 
     def move_pipes(self):
         self.bot_pipe_rect.move_ip(-2, 0)

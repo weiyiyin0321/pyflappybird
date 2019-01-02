@@ -7,7 +7,7 @@ import time
 pygame.init()
 
 red = [255, 0, 0]
-background = [0, 0, 0]
+background = pygame.image.load('./images/background.jpg')
 screen_x = 640
 screen_y = 480
 gap_width = 0.3
@@ -34,7 +34,7 @@ while True:
                 bird.jump_velocity = jump_velocity
                 bird.start_y = bird.bird_rect.y
 
-    screen.fill(background)
+    screen.blit(background, (0,0))
 
     if len(pipes_group)==0:
         gap_height = np.random.uniform(0.1, 0.9)
