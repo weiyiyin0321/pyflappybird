@@ -11,7 +11,7 @@ class Score:
         for pipe in pipes_group:
             if pipe.bot_pipe_rect.x + pipe.pipe_width == bird.bird_rect.x:
                 score = score+1
-        return score
+        return score, 1
 
     def display_score(self, score, surface):
         score_text = self.score_font.render(str(score), False, [255, 255, 255], [0, 0, 0])

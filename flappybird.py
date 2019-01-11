@@ -31,21 +31,21 @@ class FlappyBird:
     
     def run_frame(self, action=False):
         self.t = self.t+1
-        self.action = 0
+        self.action = action
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 pygame.quit()
                 sys.exit()
             elif event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_SPACE:
-                    action = True
+                    self.action = True
 
         self.screen.blit(self.background, (0,0))
 
         self.create_pipes()
         self.state = create_state(bird = self.bird, pipes_group = self.pipes_group)
 
-        if action:
+        if self.action:
             self.t=0
             self.bird.jump_velocity = self.jump_velocity
             self.bird.start_y = self.bird.bird_rect.y
@@ -88,7 +88,9 @@ class FlappyBird:
         self.reward = 0
     
     def continue_game(self):
-        self.reward = 1
+        self.score, score_reward = self.scoring.new_score(bird = self.bird, pipes_group = self.pipes_group, score = self.score)
+        self.scoring.display_score(score = self.score, surface = self.screen)
+        self.reward = 1 + 5 * score_reward
         self.bird.move(t = self.t)
         self.bird.draw_bird(surface = self.screen)
 
@@ -100,8 +102,7 @@ class FlappyBird:
         self.next_state = create_state(bird = self.bird, pipes_group = self.pipes_group)
         self.memory_frag = create_memory(state = self.state, action = self.action, next_state = self.next_state, reward = self.reward)
   
-        self.score = self.scoring.new_score(bird = self.bird, pipes_group = self.pipes_group, score = self.score)
-        self.scoring.display_score(score = self.score, surface = self.screen)
+        
 
     def get_memory(self):
         return self.memory_frag
