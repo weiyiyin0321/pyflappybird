@@ -101,8 +101,6 @@ class FlappyBird:
         
         self.next_state = create_state(bird = self.bird, pipes_group = self.pipes_group)
         self.memory_frag = create_memory(state = self.state, action = self.action, next_state = self.next_state, reward = self.reward)
-  
-        
 
     def get_memory(self):
         return self.memory_frag

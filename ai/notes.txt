@@ -1,0 +1,52 @@
+DQN Notes
+
+Things involved
+
+1. Agent
+   - this is your machine learning algorithm that you are training
+   - the agent will take a state (input) and return an action (output)
+   - it will pick the action that maximizes the discounted future rewards
+
+2. Environment
+   - this is the space that the agent interacts with
+   - it environment takes an action (input) and returns a new state (output) and reward (output)
+
+3. State 
+   - an specific instance in time of the environment
+   - the agent will view the state and take an action against it
+
+4. Action 
+   - the set of all possible moves that the agent can make
+
+5. Reward 
+   - the outcome of the action that the agent has take in the environment
+   - rewards are used to train the agent on the actions they should be taking in each scenario
+
+Structure
+
+1. State
+   1 bird_height
+   2 bird_width
+   3 bird_y
+   4 pipe_forward_x
+   5 pipe_forward_y_top
+   6 pipe_forward_y_bot
+   7 pipe_backward_x
+   8 pipe_backward_y_top
+   9 pipe_backward_y_bot
+   10 pipe_width
+
+2. Algorithm
+   - 10 inputs
+   - 1 final output (true / false for jumping)
+
+3. Reward
+   - # of frames that the bird has survived
+
+4. Action
+   - Jump
+   - Not jump
+
+5. Memory
+   - Saves state / action / reward combinations to help train algorithm
+
