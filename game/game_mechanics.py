@@ -9,7 +9,7 @@ class Score:
 
     def new_score(self, bird, pipes_group, score):
         for pipe in pipes_group:
-            if pipe.bot_pipe_rect.x + pipe.pipe_width == bird.bird_rect.x:
+            if pipe.bot_pipe_rect.x == bird.bird_rect.x + bird.bird_rect.size[0]:
                 score = score+1
         return score, 1
 

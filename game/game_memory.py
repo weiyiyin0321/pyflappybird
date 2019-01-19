@@ -1,4 +1,4 @@
-from game_mechanics import BirdPipeRelation, convert_pipes_group_to_pipe_rect_pairs
+from game.game_mechanics import BirdPipeRelation, convert_pipes_group_to_pipe_rect_pairs
 from ai.memory import Transition
 
 

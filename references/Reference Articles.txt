@@ -1,0 +1,9 @@
+Reference Articles
+
+https://skymind.ai/wiki/deep-reinforcement-learning
+
+https://pytorch.org/tutorials/intermediate/reinforcement_q_learning.html
+
+http://karpathy.github.io/2016/05/31/rl/
+
+https://nitratine.net/blog/post/simulate-keypresses-in-python/
