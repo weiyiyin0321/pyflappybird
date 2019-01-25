@@ -6,7 +6,6 @@ class Pipes(pygame.sprite.Sprite):
 
     pipe_image_bot = pygame.image.load('./images/wall_bot.png')
     pipe_image_top = pygame.image.load('./images/wall_top.png')
-    green = [0, 255, 0]
     
     def __init__(self, gap_width, pipe_width, screen_x, screen_y):
         pygame.sprite.Sprite.__init__(self)
@@ -18,9 +17,9 @@ class Pipes(pygame.sprite.Sprite):
         self.pipe_width = np.round(pipe_width * screen_x)
         
     def create_pipes(self, x_pos, gap_height):
-        gap_height = np.round(self.screen_y * gap_height, 0)
+        self.gap_height = np.round(self.screen_y * gap_height, 0)
         # bottom pipe
-        bot_pipe_height = gap_height - self.gap_width/2
+        bot_pipe_height = self.gap_height - self.gap_width/2
         bot_pipe_start_position = self.screen_y - bot_pipe_height
         self.bot_pipe_rect = pygame.rect.Rect(int(x_pos), int(bot_pipe_start_position), int(self.pipe_width), int(bot_pipe_height))
 
@@ -31,12 +30,10 @@ class Pipes(pygame.sprite.Sprite):
     def draw_pipes(self, surface):
         surface.blit(self.pipe_image_bot, self.bot_pipe_rect)
         surface.blit(self.pipe_image_top, self.top_pipe_rect)
-        # pygame.draw.rect(surface, self.green, self.bot_pipe_rect)
-        # pygame.draw.rect(surface, self.green, self.top_pipe_rect)
 
     def move_pipes(self):
-        self.bot_pipe_rect.move_ip(-2, 0)
-        self.top_pipe_rect.move_ip(-2, 0)
+        self.bot_pipe_rect.move_ip(-5, 0)
+        self.top_pipe_rect.move_ip(-5, 0)
     
     def remove(self):
         if self.bot_pipe_rect.x == -1 * self.pipe_width:
@@ -82,5 +79,4 @@ class Bird(pygame.sprite.Sprite):
             return False
         else:
             return True
-
 
